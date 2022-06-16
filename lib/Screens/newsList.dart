@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class NewsList extends StatefulWidget {
-  const NewsList({Key? key}) : super(key: key);
+class NewsList extends StatelessWidget {
+  
+  var jsonData;
+  NewsList(this.jsonData);
 
-  @override
-  State<NewsList> createState() => _NewsListState();
-}
-
-class _NewsListState extends State<NewsList> {
-  String Heading = "Indian street food restaurant Chai Pani named best in US";
-  String description =
-      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).";
+  final DateTime now = DateTime.now();
+  final timeFormatter = DateFormat('Hms');
+  final dateFormatter = DateFormat('MMMMd');
 
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
         scrollDirection: Axis.vertical,
-        itemCount: 3,
+        itemCount: jsonData["articles"].length,
         itemBuilder: (context, index) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -24,9 +22,12 @@ class _NewsListState extends State<NewsList> {
               Container(
                 height: MediaQuery.of(context).size.height / 3,
                 color: Colors.amber,
-                child: Image(
-                    fit: BoxFit.fill,
-                    image: AssetImage('assets/images/img.png')),
+                // child: Image(
+                //     fit: BoxFit.fill,
+                //     image: AssetImage('assets/images/img.png')
+                //     image: NetworkImage,
+                //   ),
+                child: Image.network("${jsonData["articles"][index]["urlToImage"]}", fit: BoxFit.fill,),
               ),
               Expanded(
                   child: Container(
@@ -36,19 +37,24 @@ class _NewsListState extends State<NewsList> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(Heading,
+                        Text(
+                            jsonData["articles"][index]["title"],
                             style: TextStyle(fontSize: 25),
                             textAlign: TextAlign.justify),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        const SizedBox(height: 10),
                         Text(
-                          description,
+                          (jsonData["articles"][index]["content"] != null) ?jsonData["articles"][index]["content"] :"",
                           style: TextStyle(
                               color: Colors.grey[600], fontSize: 17),
                           textAlign: TextAlign.justify,
                         ),
                         SizedBox(height: 15),
+                        Text(
+                          'Published at: ${dateFormatter.format( DateTime.parse(jsonData["articles"][index]["publishedAt"]))}  ${timeFormatter.format( DateTime.parse(jsonData["articles"][index]["publishedAt"]))}',
+                          style: TextStyle(color: Colors.grey, fontSize: 16),
+                          textAlign: TextAlign.justify,
+                        ),
+                        SizedBox(height: 20,),
                         Text(
                           'swipe left for more info.',
                           style: TextStyle(color: Colors.grey, fontSize: 14),
