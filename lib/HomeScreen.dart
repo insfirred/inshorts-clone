@@ -15,8 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
-  var controller = PageController(initialPage: 1);
+  late PageController controller;
 
   String url = "https://newsapi.org/v2/top-headlines?country=in&category=science&apiKey=ff7aefdd16e6480faf2817f36e2daa5e";
 
@@ -35,9 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
-
   void initState() {
     super.initState();
+    controller = PageController(initialPage: 1);
     fetchNews();
   }
 
@@ -53,10 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
             WebView(),
           ],
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: ()=> fetchNews(),
-        //   child: Icon(Icons.search),
-        // ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class WaitingScreen extends StatefulWidget {
   const WaitingScreen({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class _WaitingScreenState extends State<WaitingScreen> {
         Icon(Icons.cloud_outlined,size: 150,),
         Icon(Icons.arrow_downward_rounded,size: 65,),
         SizedBox(height: 15),
-        Icon(Icons.mobile_friendly_rounded,size: 130,),
+        Icon(FontAwesomeIcons.mobileScreen,size: 115,),
         SizedBox(height: 50,),
         Text('Loading Shorts...',style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
         SizedBox(height: 40,),
