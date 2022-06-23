@@ -8,7 +8,8 @@ import './Screens/newsList.dart';
 import './Screens/webView.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  HomeScreen({Key? key}) : super(key: key);
+  static int newsIndex = 0;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -49,10 +50,14 @@ class _HomeScreenState extends State<HomeScreen> {
             Bookmarks(),
             isNewsFetched ?NewsList(jsonData) :WaitingScreen(),
             // isNewsFetched ?WaitingScreen() :WaitingScreen(),
-            WebView(),
+            isNewsFetched ?WebViewPage(jsonData) :WaitingScreen(),
           ],
         ),
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>WebViewPage())),
+        // ),
       ),
+      
     );
   }
 }
