@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:vibration/vibration.dart';
 
 import '../HomeScreen.dart';
 import './showImage.dart';
@@ -38,7 +39,6 @@ class _NewsListState extends State<NewsList> with AutomaticKeepAliveClientMixin<
     return PageView.builder(
       onPageChanged: (page){
         HomeScreen.newsIndex = page;
-        print(HomeScreen.newsIndex);
       },
         scrollDirection: Axis.vertical,
         itemCount: widget.jsonData["articles"].length,
@@ -47,8 +47,9 @@ class _NewsListState extends State<NewsList> with AutomaticKeepAliveClientMixin<
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               InkWell(
-                onTap: () =>
-                  Navigator.push(context, SizeTransition3(ShowImage("${widget.jsonData["articles"][index]["urlToImage"]}"))),
+                onTap: (){
+                  Navigator.push(context, SizeTransition3(ShowImage("${widget.jsonData["articles"][index]["urlToImage"]}")));
+                },
                 child: SizedBox(
                     height: MediaQuery.of(context).size.height / 3,
                     child: (   widget.jsonData["articles"][index]["urlToImage"] != null    )
@@ -67,10 +68,19 @@ class _NewsListState extends State<NewsList> with AutomaticKeepAliveClientMixin<
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      widget.jsonData["articles"][index]["title"],
-                        style: TextStyle(fontSize: 25),
-                        textAlign: TextAlign.justify),
+                    GestureDetector(
+                      onLongPress: (){
+                        Vibration.vibrate(duration: 100);
+                        Fluttertoast.showToast(
+                          msg: "Added to Bookmarks",
+                          backgroundColor: Color.fromARGB(255, 65, 63, 63)
+                        );
+                      },
+                      child: Text(
+                        widget.jsonData["articles"][index]["title"],
+                          style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.justify),
+                    ),
                     const SizedBox(height: 10),
                     Text(
                       (widget.jsonData["articles"][index]["content"] != null)
