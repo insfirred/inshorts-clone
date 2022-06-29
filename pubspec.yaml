@@ -40,6 +40,8 @@ dependencies:
   webview_flutter: ^3.0.4
   fluttertoast: ^8.0.9
   vibration: ^1.7.3
+  shake: ^2.1.0
+  flutter_fadein: ^2.0.0
 
 dev_dependencies:
   flutter_test:

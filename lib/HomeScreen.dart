@@ -18,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late PageController controller;
 
-  String url = "https://newsapi.org/v2/top-headlines?country=in&category=science&apiKey=ff7aefdd16e6480faf2817f36e2daa5e";
+  String url = "https://newsapi.org/v2/top-headlines?country=in&category=entertainment&apiKey=ff7aefdd16e6480faf2817f36e2daa5e";
 
   late var jsonData;
 
@@ -53,9 +53,6 @@ class _HomeScreenState extends State<HomeScreen> {
             isNewsFetched ?WebViewPage(jsonData) :WaitingScreen(),
           ],
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>WebViewPage())),
-        // ),
       ),
       
     );

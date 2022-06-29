@@ -5,8 +5,6 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import '../HomeScreen.dart';
 
-import './newsList.dart';
-
 class WebViewPage extends StatefulWidget {
   // const WebViewPage({Key? key}) : super(key: key);
   var jsonData;
@@ -35,18 +33,25 @@ class _WebViewPageState extends State<WebViewPage> {
         color: Colors.black,
         width: MediaQuery.of(context).size.width,
         height: 35,
-        child: Align(
-          alignment: Alignment.centerRight,
-          child: PopupMenuButton<String>(
-              onSelected: action,
-              itemBuilder: (context) {
-                return PopUpMenuData.Menu.map((String choice) {
-                  return PopupMenuItem<String>(
-                    value: choice,
-                    child: Text(choice),
-                  );
-                }).toList();
-              }),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20,0,10,0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(),
+              Text(jsonData["articles"][HomeScreen.newsIndex]["source"]["name"]),
+              PopupMenuButton<String>(
+                  onSelected: action,
+                  itemBuilder: (context) {
+                    return PopUpMenuData.Menu.map((String choice) {
+                      return PopupMenuItem<String>(
+                        value: choice,
+                        child: Text(choice),
+                      );
+                    }).toList();
+                  }),
+            ],
+          ),
         ));
   }
 
@@ -57,7 +62,6 @@ class _WebViewPageState extends State<WebViewPage> {
           TopBar(),
           Expanded(
             child: WebView(
-              // initialUrl: jsonData["articles"][0]["url"],
               initialUrl: jsonData["articles"][HomeScreen.newsIndex]["url"],
               javascriptMode: JavascriptMode.unrestricted,
             ),
