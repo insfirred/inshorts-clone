@@ -46,15 +46,16 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: PageView(
+        body: isNewsFetched
+        ?PageView(
           controller: controller,
           children: [
             Bookmarks(),
-            isNewsFetched ?NewsList(jsonData) :WaitingScreen(),
-            // isNewsFetched ?WaitingScreen() :WaitingScreen(),
-            isNewsFetched ?WebViewPage(jsonData) :WaitingScreen(),
+            NewsList(jsonData),
+            WebViewPage(jsonData)
           ],
-        ),
+        )
+        :const WaitingScreen()
       ),
       
     );

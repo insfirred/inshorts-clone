@@ -44,6 +44,8 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   sqflite: ^2.0.3+1
   path_provider: ^2.0.11
+  url_launcher: ^6.1.5
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +73,10 @@ flutter:
   assets:
     - assets/images/img.png
     - assets/images/unavailable-image.jpg
+    - assets/gifs/swipe_left.gif
+    - assets/gifs/swipe_right.gif
+    - assets/gifs/swipe_up.gif
+    - assets/gifs/tap.gif
 
   #   - images/a_dot_ham.jpeg
 

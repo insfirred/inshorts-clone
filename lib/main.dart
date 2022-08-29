@@ -1,32 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import './HomeScreen.dart';
 import './Screens/gettingStarted.dart';
 
-void main() {
-
+Future main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
+  final showHome = prefs.getBool('showHome')??false;
   runApp(
-    MyApp()
+    MyApp(showHome: showHome)
   );
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+  final bool showHome;
+  MyApp({
+    Key? key,
+    required this.showHome
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: {
-        '/': (context) => HomeScreen(),
-        '/getting_started': (context) => GettingStarted(),
-      },
       title: 'Flutter Demo',
       themeMode: ThemeMode.system,
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
-      // home: HomeScreen(),
+      home: showHome ?HomeScreen() :GettingStarted(),
     );
   }
 }
