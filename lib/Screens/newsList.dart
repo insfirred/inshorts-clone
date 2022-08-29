@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:vibration/vibration.dart';
 import 'package:shake/shake.dart';
 
 import '../HomeScreen.dart';
 import './showImage.dart';
 import '../animation/animation.dart';
+import '../database/database.dart';
 
 class NewsList extends StatefulWidget {
   var jsonData;
@@ -28,9 +28,12 @@ class _NewsListState extends State<NewsList>
 
   void addedToBookmarks() {
     // Vibration.vibrate(duration: 100);
-    Fluttertoast.showToast(
-        msg: "Added to Bookmarks!",
-        backgroundColor: Color.fromARGB(255, 65, 63, 63));
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Added to Bookmarks!'),
+        duration: Duration(milliseconds: 800),
+      )
+    );
   }
 
   Widget NewsImage(index) {
@@ -54,6 +57,7 @@ class _NewsListState extends State<NewsList>
   }
 
   Widget NewsDetails(index) {
+    
     return Expanded(
         child: Container(
       padding: EdgeInsets.all(15),
@@ -62,13 +66,22 @@ class _NewsListState extends State<NewsList>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           GestureDetector(
-            onTap: () {
+            onTap: () async{
+              // Tapping on title
+              int i = await DatabaseClass.instance.create(
+                {
+                  ColumnFields.title: widget.jsonData["articles"][index]["title"],
+                  ColumnFields.description: (widget.jsonData["articles"][index]["content"] != null) ?widget.jsonData["articles"][index]["content"] :"",
+                  ColumnFields.date: 'Published at: ${dateFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}  ${timeFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}',
+                  ColumnFields.url: (widget.jsonData["articles"][index]["url"] != null) ?widget.jsonData["articles"][index]["url"] :""
+                }
+              );
               addedToBookmarks();
             },
             child: Container(
               child: Text(widget.jsonData["articles"][index]["title"],
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.justify),
+                  ),
             ),
           ),
           SizedBox(height: 10),
@@ -88,7 +101,7 @@ class _NewsListState extends State<NewsList>
                   SizedBox(height: 15),
                   Text(
                     'Published at: ${dateFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}  ${timeFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}',
-                    style: TextStyle(color: Colors.grey, fontSize: 16),
+                    style: TextStyle(color: Colors.grey, fontSize: 16,fontStyle: FontStyle.italic),
                     textAlign: TextAlign.justify,
                   ),
                   SizedBox(

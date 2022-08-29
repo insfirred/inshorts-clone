@@ -38,10 +38,12 @@ dependencies:
   intl: ^0.17.0
   font_awesome_flutter: ^10.1.0
   webview_flutter: ^3.0.4
-  fluttertoast: ^8.0.9
   vibration: ^1.7.3
   shake: ^2.1.0
   flutter_fadein: ^2.0.0
+  smooth_page_indicator: ^1.0.0+2
+  sqflite: ^2.0.3+1
+  path_provider: ^2.0.11
 
 dev_dependencies:
   flutter_test:
