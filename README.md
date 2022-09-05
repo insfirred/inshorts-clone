@@ -15,8 +15,9 @@ An Application that provides you news shorts coming from the API service (NewsAP
 ## Download 📥
 - Download latest APK from [here](https://github.com/dheerajkotwani/CineWatch/releases/download/refs%2Fheads%2Fmaster/app.apk)
 
-## Screenshots 📷 
-![light_screenshot](Assets/screen_shot1.png)
+## Screenshots 1 📷 
+![screenshot1](assets/readMe/one.png)
+![screenshot1](assets/readMe/two.png)
 
 ## Project Structure 📂
 
