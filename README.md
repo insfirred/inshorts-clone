@@ -1,16 +1,34 @@
-# inshorts_clone
+![](./Assets/header.png)
 
-A new Flutter project.
+# News Shorts 📄 
 
-## Getting Started
+An Application that provides you news shorts coming from the API service (NewsAPI.org). It can saves shorts as bookmarks locally. 
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## Features 🚀
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Get the news articles as shorts.
+- Shows the full article in WebView.
+- Bookmark your favourite shorts locally.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+## Download 📥
+- Download latest APK from [here](https://github.com/dheerajkotwani/CineWatch/releases/download/refs%2Fheads%2Fmaster/app.apk)
+
+## Screenshots 📷 
+![light_screenshot](Assets/screen_shot1.png)
+
+## Project Structure 📂
+
+
+## Requirements 🎯 
+- Android 4.1 or Above
+- Min sdk version 19
+
+## Permissions 💻
+- Internet
+
+### If you liked the project don't forget to star 🌟 and fork 🍽 the project.
+![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)
+![ForTheBadge ANDROID](https://forthebadge.com/images/badges/built-for-android.svg)
+![ForTheBadge GIT](https://forthebadge.com/images/badges/uses-git.svg)

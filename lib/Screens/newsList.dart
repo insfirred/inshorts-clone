@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 // import 'package:vibration/vibration.dart';
 import 'package:shake/shake.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../HomeScreen.dart';
 import './showImage.dart';
@@ -47,9 +48,13 @@ class _NewsListState extends State<NewsList>
       child: SizedBox(
           height: MediaQuery.of(context).size.height / 3,
           child: (widget.jsonData["articles"][index]["urlToImage"] != null)
-              ? Image.network(
-                  "${widget.jsonData["articles"][index]["urlToImage"]}",
-                  fit: BoxFit.fill,
+              // ? Image.network(
+              //     "${widget.jsonData["articles"][index]["urlToImage"]}",
+              //     fit: BoxFit.fill,
+              //   )
+                ? CachedNetworkImage(
+                    imageUrl: "${widget.jsonData["articles"][index]["urlToImage"]}",
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                 )
               : const Image(
                   image: AssetImage('assets/images/unavailable-image.jpg'))),
