@@ -19,9 +19,6 @@ An Application that provides you news shorts coming from the API service (NewsAP
 ![screenshot1](assets/readMe/one.png)
 ![screenshot1](assets/readMe/two.png)
 
-## Project Structure 📂
-
-
 ## Requirements 🎯 
 - Android 4.1 or Above
 - Min sdk version 19
