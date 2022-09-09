@@ -13,14 +13,11 @@ An Application that provides you news shorts coming from the API service (NewsAP
 
 
 ## Download 📥
-- Download latest APK from [here](https://github.com/dheerajkotwani/CineWatch/releases/download/refs%2Fheads%2Fmaster/app.apk)
+- Download latest APK from [here](https://github.com/insfirred/inshorts-clone/blob/features/apks/app-release.apk)
 
 ## Screenshots 1 📷 
 ![screenshot1](assets/readMe/one.png)
 ![screenshot1](assets/readMe/two.png)
-
-## Project Structure 📂
-
 
 ## Requirements 🎯 
 - Android 4.1 or Above
