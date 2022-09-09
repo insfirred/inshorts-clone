@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:inshorts_clone/Screens/newsList.dart';
 import 'package:inshorts_clone/database/database.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -23,7 +24,7 @@ class _BookmarksState extends State<Bookmarks> {
       isLoading = true;
     });
 
-    this.list = await DatabaseClass.instance.read();
+    list = await DatabaseClass.instance.read();
 
     setState(() {
       isLoading = false;
@@ -52,7 +53,7 @@ class _BookmarksState extends State<Bookmarks> {
               children: [
                 IconButton(
                   onPressed: () async{
-                    int i = await DatabaseClass.instance.delete(list[newIndex]['_id']);
+                    int i = await DatabaseClass.instance.delete(list[newIndex]['url']);
                     displayNews();
                   },
                   icon: const FaIcon(FontAwesomeIcons.trash)
@@ -60,6 +61,8 @@ class _BookmarksState extends State<Bookmarks> {
               ],
             ),
             Text( list[newIndex]['title']  ,style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+            SizedBox(height: 10,),
+            Text( list[newIndex]['_id'].toString()  ,style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
             SizedBox(height: 10,),
             Text( list[newIndex]['_description']  ,style: TextStyle(color: Colors.grey[600], fontSize: 17),),
             SizedBox(height: 10,),

@@ -1,17 +1,15 @@
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class NewsModel{
-  final int? id;
+  final int id;
   final String title;
   final String description;
   final String date;
   final String url;
 
   NewsModel({
-    this.id,
+    required this.id,
     required this.title,
     required this.description,
     required this.date,
@@ -21,11 +19,11 @@ class NewsModel{
 
 class ColumnFields{
   // Column Field Names
-  static final String id = '_id';
-  static final String title = 'title';
-  static final String description = '_description';
-  static final String date = 'date';
-  static final String url = 'url';
+  static const String id = '_id';
+  static const String title = 'title';
+  static const String description = '_description';
+  static const String date = 'date';
+  static const String url = 'url';
 }
 
 class DatabaseClass{
@@ -35,9 +33,9 @@ class DatabaseClass{
 
   static Database? _database;
 
-  static final _dbName = 'myDatabase.db';
-  static final _dbVersion = 1;
-  static final tableName = 'NewsTable';
+  static const _dbName = 'myDatabase.db';
+  static const _dbVersion = 1;
+  static const tableName = 'NewsTable';
 
 
   Future<Database> get database async{
@@ -46,7 +44,7 @@ class DatabaseClass{
     }
 
     _database = await createDB(_dbName);
-    return _database!; 
+    return _database!;
   }
 
   Future<Database> createDB(String dbName) async{
@@ -82,8 +80,8 @@ class DatabaseClass{
   }
 
   // Delete Operation
-  Future<int> delete(int id) async{
+  Future<int> delete(String url) async{
     Database db = await instance.database;
-    return await db.delete(tableName,where: '${ColumnFields.id} = ?',whereArgs: [id]);
+    return await db.delete(tableName,where: '${ColumnFields.url} = ?',whereArgs: [url]);
   }
 }

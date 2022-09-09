@@ -21,7 +21,7 @@ class _NewsListState extends State<NewsList>
     with AutomaticKeepAliveClientMixin<NewsList> {
   final DateTime now = DateTime.now();
 
-  final timeFormatter = DateFormat('Hms');
+  final timeFormatter = DateFormat('jm');
 
   final dateFormatter = DateFormat('MMMMd');
 
@@ -48,10 +48,6 @@ class _NewsListState extends State<NewsList>
       child: SizedBox(
           height: MediaQuery.of(context).size.height / 3,
           child: (widget.jsonData["articles"][index]["urlToImage"] != null)
-              // ? Image.network(
-              //     "${widget.jsonData["articles"][index]["urlToImage"]}",
-              //     fit: BoxFit.fill,
-              //   )
                 ? CachedNetworkImage(
                     imageUrl: "${widget.jsonData["articles"][index]["urlToImage"]}",
                     errorWidget: (context, url, error) => Icon(Icons.error),
@@ -60,6 +56,8 @@ class _NewsListState extends State<NewsList>
                   image: AssetImage('assets/images/unavailable-image.jpg'))),
     );
   }
+
+  List<Map<String,dynamic>> list = [];
 
   Widget NewsDetails(index) {
     
@@ -73,52 +71,56 @@ class _NewsListState extends State<NewsList>
           GestureDetector(
             onTap: () async{
               // Tapping on title
-              int i = await DatabaseClass.instance.create(
-                {
-                  ColumnFields.title: widget.jsonData["articles"][index]["title"],
-                  ColumnFields.description: (widget.jsonData["articles"][index]["content"] != null) ?widget.jsonData["articles"][index]["content"] :"",
-                  ColumnFields.date: 'Published at: ${dateFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}  ${timeFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}',
-                  ColumnFields.url: (widget.jsonData["articles"][index]["url"] != null) ?widget.jsonData["articles"][index]["url"] :""
+
+                list = await DatabaseClass.instance.read();
+
+                bool isPresent = false;
+                for(int i=0 ; i<list.length; i++){
+                  if(widget.jsonData["articles"][i]["url"] == widget.jsonData["articles"][index]["url"] ){
+                    isPresent = true;
+                  }
                 }
-              );
-              addedToBookmarks();
+
+                if(isPresent){
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(duration: Duration(milliseconds: 800),content: Text("Already present in Bookmarks")));
+                }
+                else{
+                  int i = await DatabaseClass.instance.create(
+                    {
+                      ColumnFields.title: widget.jsonData["articles"][index]["title"],
+                      ColumnFields.description: (widget.jsonData["articles"][index]["content"] != null) ?widget.jsonData["articles"][index]["content"] :"",
+                      ColumnFields.date: 'Published at: ${dateFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}  ${timeFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}',
+                      ColumnFields.url: (widget.jsonData["articles"][index]["url"] != null) ?widget.jsonData["articles"][index]["url"] :""
+                    }
+                  );
+                  addedToBookmarks();
+                } 
+              
             },
-            child: Container(
-              child: Text(widget.jsonData["articles"][index]["title"],
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                  ),
-            ),
+            child: Text(widget.jsonData["articles"][index]["title"],
+                style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
 
           GestureDetector(
-            child: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    (widget.jsonData["articles"][index]["content"] != null)
-                        ? widget.jsonData["articles"][index]["content"]
-                        : "",
-                    style: TextStyle(color: Colors.grey[600], fontSize: 17),
-                    textAlign: TextAlign.justify,
-                  ),
-                  SizedBox(height: 15),
-                  Text(
-                    'Published at: ${dateFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}  ${timeFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}',
-                    style: TextStyle(color: Colors.grey, fontSize: 16,fontStyle: FontStyle.italic),
-                    textAlign: TextAlign.justify,
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'swipe left for more info.',
-                    style: TextStyle(color: Colors.grey, fontSize: 14),
-                    textAlign: TextAlign.justify,
-                  ),
-                ],
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  (widget.jsonData["articles"][index]["content"] != null)
+                      ? widget.jsonData["articles"][index]["content"]
+                      : "",
+                  style: TextStyle(color: Colors.grey[600], fontSize: 17),
+                  textAlign: TextAlign.justify,
+                ),
+                const SizedBox(height: 30),
+                Text(
+                  'Published at: ${dateFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}  ${timeFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}',
+                  style: const TextStyle(color: Colors.grey, fontSize: 14,fontStyle: FontStyle.italic),
+                  textAlign: TextAlign.justify,
+                ),
+              ],
             ),
           ),
         ],
@@ -134,6 +136,8 @@ class _NewsListState extends State<NewsList>
         addedToBookmarks();
       },
     );
+    print('hello');
+
   }
 
   @override
@@ -146,6 +150,8 @@ class _NewsListState extends State<NewsList>
         scrollDirection: Axis.vertical,
         itemCount: widget.jsonData["articles"].length,
         itemBuilder: (context, index) {
+
+
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

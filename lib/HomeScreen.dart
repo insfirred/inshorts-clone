@@ -20,9 +20,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late PageController controller;
 
-  String url = "https://newsapi.org/v2/top-headlines?country=in&category=entertainment&apiKey=ff7aefdd16e6480faf2817f36e2daa5e";
-
   late var jsonData;
+
+  String url = "https://newsapi.org/v2/top-headlines?country=in&category=entertainment&apiKey=ff7aefdd16e6480faf2817f36e2daa5e";
 
   bool isNewsFetched = false;
 
