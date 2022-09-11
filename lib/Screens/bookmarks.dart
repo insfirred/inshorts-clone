@@ -1,11 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:inshorts_clone/Screens/newsList.dart';
 import 'package:inshorts_clone/database/database.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../theme/theme.dart';
 
 class Bookmarks extends StatefulWidget {
   Bookmarks({Key? key}) : super(key: key);
@@ -36,15 +34,17 @@ class _BookmarksState extends State<Bookmarks> {
   Widget NewsTile(int index){
     int len = list.length;
     int newIndex = len-index-1 ;
+    TextTheme _textTheme = Theme.of(context).textTheme;
     
     return Padding(
-      padding: EdgeInsets.fromLTRB(25, 40, 25, 20),
+      padding: EdgeInsets.fromLTRB(25, 30, 25, 0),
       child: Container(
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 217, 216, 212),
+          // color:  Color.fromARGB(255, 70, 66, 66),
+          color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(20),
         ),
-        padding: EdgeInsets.fromLTRB(20,5,20,25),
+        padding: EdgeInsets.fromLTRB(20,5,20,20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -56,18 +56,44 @@ class _BookmarksState extends State<Bookmarks> {
                     int i = await DatabaseClass.instance.delete(list[newIndex]['url']);
                     displayNews();
                   },
-                  icon: const FaIcon(FontAwesomeIcons.trash)
+                  icon: const FaIcon(FontAwesomeIcons.trash,size: 20)
                 ),
+                // IconTheme(
+                //   data: _iconTheme,
+                //   child: IconButton(
+                //   onPressed: () async{
+                //     int i = await DatabaseClass.instance.delete(list[newIndex]['url']);
+                //     displayNews();
+                //   },
+                //   icon: const FaIcon(FontAwesomeIcons.trash,)
+                // ),
+                // )
               ],
             ),
-            Text( list[newIndex]['title']  ,style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
-            SizedBox(height: 10,),
-            Text( list[newIndex]['_id'].toString()  ,style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
-            SizedBox(height: 10,),
-            Text( list[newIndex]['_description']  ,style: TextStyle(color: Colors.grey[600], fontSize: 17),),
-            SizedBox(height: 10,),
-            Text( list[newIndex]['date']  ,style: TextStyle(color: Colors.grey, fontSize: 16,fontStyle: FontStyle.italic),),
-            SizedBox(height: 10,),
+            Text( list[newIndex]['title']  ,style: _textTheme.headline6),
+            const SizedBox(height: 10,),
+            // Text( list[newIndex]['_id'].toString()  ,style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+            // const SizedBox(height: 10,),
+            // Text( list[newIndex]['_description']  ,style: const TextStyle(
+              // color: Colors.grey[600],
+              // fontSize: 17)
+            // ),
+            // const SizedBox(height: 10,),
+
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                list[newIndex]['date'],
+                  // style: const TextStyle(
+                  // color: Colors.grey,
+                    // fontSize: 16,
+                    // fontStyle: FontStyle.italic
+                  // )
+                  style: _textTheme.subtitle2,
+              ),
+            ),
+            const SizedBox(height: 10,),
+
             GestureDetector(
               onTap: () async{
                 String url = list[newIndex]['url'];
@@ -91,16 +117,20 @@ class _BookmarksState extends State<Bookmarks> {
 
   @override
   Widget build(BuildContext context) {
-
     if(isLoading){
       return CircularProgressIndicator();
     }
     else{
-
+      TextTheme _textTheme = Theme.of(context).textTheme;
       if(list.length==0){
         return Builder(
           builder: (context) {
-            return const Center(child: Text('Your Saved Bookmarks Will Appear Here...'));
+            return Center(
+              child: Text(
+                'Your Saved Bookmarks Will Appear Here',
+                style: _textTheme.subtitle1,
+              )
+            );
           }
         );
       }

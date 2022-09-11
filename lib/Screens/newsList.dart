@@ -49,8 +49,9 @@ class _NewsListState extends State<NewsList>
           height: MediaQuery.of(context).size.height / 3,
           child: (widget.jsonData["articles"][index]["urlToImage"] != null)
                 ? CachedNetworkImage(
+                  fit: BoxFit.fill,
                     imageUrl: "${widget.jsonData["articles"][index]["urlToImage"]}",
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
                 )
               : const Image(
                   image: AssetImage('assets/images/unavailable-image.jpg'))),
@@ -60,7 +61,7 @@ class _NewsListState extends State<NewsList>
   List<Map<String,dynamic>> list = [];
 
   Widget NewsDetails(index) {
-    
+    TextTheme _textTheme = Theme.of(context).textTheme;
     return Expanded(
         child: Container(
       padding: EdgeInsets.all(15),
@@ -82,23 +83,23 @@ class _NewsListState extends State<NewsList>
                 }
 
                 if(isPresent){
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(duration: Duration(milliseconds: 800),content: Text("Already present in Bookmarks")));
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(duration: Duration(milliseconds: 800),content: Text("Already present in Bookmarks")));
                 }
                 else{
                   int i = await DatabaseClass.instance.create(
                     {
                       ColumnFields.title: widget.jsonData["articles"][index]["title"],
                       ColumnFields.description: (widget.jsonData["articles"][index]["content"] != null) ?widget.jsonData["articles"][index]["content"] :"",
-                      ColumnFields.date: 'Published at: ${dateFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}  ${timeFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}',
+                      ColumnFields.date: '${dateFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}  ${timeFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}',
                       ColumnFields.url: (widget.jsonData["articles"][index]["url"] != null) ?widget.jsonData["articles"][index]["url"] :""
                     }
                   );
                   addedToBookmarks();
                 } 
-              
             },
             child: Text(widget.jsonData["articles"][index]["title"],
-                style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                // style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                style: _textTheme.headline5,
                 ),
           ),
           const SizedBox(height: 10),
@@ -111,13 +112,22 @@ class _NewsListState extends State<NewsList>
                   (widget.jsonData["articles"][index]["content"] != null)
                       ? widget.jsonData["articles"][index]["content"]
                       : "",
-                  style: TextStyle(color: Colors.grey[600], fontSize: 17),
+                  // style: TextStyle(
+                  //   color: Colors.grey[700],
+                  //   fontSize: 17
+                  // ),
+                  style: _textTheme.subtitle1,
                   textAlign: TextAlign.justify,
                 ),
                 const SizedBox(height: 30),
                 Text(
                   'Published at: ${dateFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}  ${timeFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}',
-                  style: const TextStyle(color: Colors.grey, fontSize: 14,fontStyle: FontStyle.italic),
+                  // style: const TextStyle(
+                  //   color: Colors.grey,
+                  //   fontSize: 14,
+                  //   fontStyle: FontStyle.italic
+                  // ),
+                  style: _textTheme.subtitle2,
                   textAlign: TextAlign.justify,
                 ),
               ],

@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import './HomeScreen.dart';
 import './Screens/gettingStarted.dart';
+import './theme/theme.dart';
 
 Future main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,10 +25,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'News Shorts',
       themeMode: ThemeMode.system,
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
+      // theme: ThemeData.light(),
+      theme: lightTheme,
+      darkTheme: darkTheme,
       home: showHome ?HomeScreen() :GettingStarted(),
     );
   }
