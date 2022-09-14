@@ -59,7 +59,7 @@ class _NewsListState extends State<NewsList>
   }
 
   List<Map<String,dynamic>> list = [];
-
+  
   Widget NewsDetails(index) {
     TextTheme _textTheme = Theme.of(context).textTheme;
     return Expanded(
@@ -73,12 +73,17 @@ class _NewsListState extends State<NewsList>
             onTap: () async{
               // Tapping on title
 
+                // print("first =$list");
                 list = await DatabaseClass.instance.read();
+                print(list);
 
                 bool isPresent = false;
                 for(int i=0 ; i<list.length; i++){
-                  if(widget.jsonData["articles"][i]["url"] == widget.jsonData["articles"][index]["url"] ){
+                  // print(   "$index  =  ${widget.jsonData["articles"][index]["url"]}"   );
+                  // print(list[i]);
+                  if(list[i]["url"] == widget.jsonData["articles"][index]["url"] ){
                     isPresent = true;
+                    // print(isPresent);
                   }
                 }
 

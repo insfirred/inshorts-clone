@@ -58,37 +58,15 @@ class _BookmarksState extends State<Bookmarks> {
                   },
                   icon: const FaIcon(FontAwesomeIcons.trash,size: 20)
                 ),
-                // IconTheme(
-                //   data: _iconTheme,
-                //   child: IconButton(
-                //   onPressed: () async{
-                //     int i = await DatabaseClass.instance.delete(list[newIndex]['url']);
-                //     displayNews();
-                //   },
-                //   icon: const FaIcon(FontAwesomeIcons.trash,)
-                // ),
-                // )
               ],
             ),
             Text( list[newIndex]['title']  ,style: _textTheme.headline6),
             const SizedBox(height: 10,),
-            // Text( list[newIndex]['_id'].toString()  ,style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
-            // const SizedBox(height: 10,),
-            // Text( list[newIndex]['_description']  ,style: const TextStyle(
-              // color: Colors.grey[600],
-              // fontSize: 17)
-            // ),
-            // const SizedBox(height: 10,),
 
             Align(
               alignment: Alignment.centerRight,
               child: Text(
                 list[newIndex]['date'],
-                  // style: const TextStyle(
-                  // color: Colors.grey,
-                    // fontSize: 16,
-                    // fontStyle: FontStyle.italic
-                  // )
                   style: _textTheme.subtitle2,
               ),
             ),
