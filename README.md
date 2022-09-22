@@ -21,9 +21,14 @@ An Application that provides you news shorts coming from the API service (NewsAP
 ## HomeScreen, WebView, Bookmarks
 ![screenshot1](assets/readMe/two.jpg)
 
-## Requirements 🎯 
-- Android 4.1 or Above
-- Min sdk version 19
+## Contributors
+<table>
+  <tbody><tr>
+    <td align="center"><a href="https://github.com/insfirred"><img alt="" src="https://avatars.githubusercontent.com/insfirred" width="100px;"><br><sub><b>Developed by<br>Kalash</b></sub></a></td>
+    <td align="center"><a href="https://github.com/iamshubhransh"><img alt="" src="https://avatars.githubusercontent.com/iamshubhransh" width="100px;"><br><sub><b>Designed by<br>Shubhransh</b></sub></a></td>
+
+  </tr>
+</tbody></table>
 
 ## Permissions 💻
 - Internet
