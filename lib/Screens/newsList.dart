@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-// import 'package:vibration/vibration.dart';
 import 'package:shake/shake.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../HomeScreen.dart';
 import './showImage.dart';
@@ -28,16 +28,13 @@ class _NewsListState extends State<NewsList>
   bool get wantKeepAlive => true;
 
   void addedToBookmarks() {
-    // Vibration.vibrate(duration: 100);
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Added to Bookmarks!'),
-        duration: Duration(milliseconds: 800),
-      )
-    );
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text('Added to Bookmarks!'),
+      duration: Duration(milliseconds: 800),
+    ));
   }
 
-  Widget NewsImage(index) {
+  Widget NewsImageHolder(index) {
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -46,20 +43,30 @@ class _NewsListState extends State<NewsList>
                 "${widget.jsonData["articles"][index]["urlToImage"]}")));
       },
       child: SizedBox(
-          height: MediaQuery.of(context).size.height / 3,
+          height: (MediaQuery.of(context).size.height / 3) - 20,
           child: (widget.jsonData["articles"][index]["urlToImage"] != null)
-                ? CachedNetworkImage(
+              ? CachedNetworkImage(
                   fit: BoxFit.fill,
-                    imageUrl: "${widget.jsonData["articles"][index]["urlToImage"]}",
-                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                  imageUrl:
+                      "${widget.jsonData["articles"][index]["urlToImage"]}",
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 )
+              // ? FadeInImage.assetNetwork(
+              //   fit: BoxFit.fill,
+              //   placeholder: 'assets/gifs/skeleton_image.gif',
+              //   image: widget.jsonData["articles"][index]["urlToImage"]
+              //   )
+
+              // ? Image.network(widget.jsonData["articles"][index]["urlToImage"],fit: BoxFit.fill)
               : const Image(
-                  image: AssetImage('assets/images/unavailable-image.jpg'))),
+                  image: AssetImage('assets/images/unavailable-image.jpg'),
+                  fit: BoxFit.fill,
+                )),
     );
   }
 
-  List<Map<String,dynamic>> list = [];
-  
+  List<Map<String, dynamic>> list = [];
+
   Widget NewsDetails(index) {
     TextTheme _textTheme = Theme.of(context).textTheme;
     return Expanded(
@@ -70,77 +77,110 @@ class _NewsListState extends State<NewsList>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           GestureDetector(
-            onTap: () async{
+            onTap: () async {
               // Tapping on title
 
-                // print("first =$list");
-                list = await DatabaseClass.instance.read();
-                print(list);
+              // print("first =$list");
+              list = await DatabaseClass.instance.read();
+              // print(list);
 
-                bool isPresent = false;
-                for(int i=0 ; i<list.length; i++){
-                  // print(   "$index  =  ${widget.jsonData["articles"][index]["url"]}"   );
-                  // print(list[i]);
-                  if(list[i]["url"] == widget.jsonData["articles"][index]["url"] ){
-                    isPresent = true;
-                    // print(isPresent);
-                  }
+              bool isPresent = false;
+              for (int i = 0; i < list.length; i++) {
+                // print(   "$index  =  ${widget.jsonData["articles"][index]["url"]}"   );
+                // print(list[i]);
+                if (list[i]["url"] ==
+                    widget.jsonData["articles"][index]["url"]) {
+                  isPresent = true;
+                  // print(isPresent);
                 }
+              }
 
-                if(isPresent){
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(duration: Duration(milliseconds: 800),content: Text("Already present in Bookmarks")));
-                }
-                else{
-                  int i = await DatabaseClass.instance.create(
-                    {
-                      ColumnFields.title: widget.jsonData["articles"][index]["title"],
-                      ColumnFields.description: (widget.jsonData["articles"][index]["content"] != null) ?widget.jsonData["articles"][index]["content"] :"",
-                      ColumnFields.date: '${dateFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}  ${timeFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}',
-                      ColumnFields.url: (widget.jsonData["articles"][index]["url"] != null) ?widget.jsonData["articles"][index]["url"] :""
-                    }
-                  );
-                  addedToBookmarks();
-                } 
+              if (isPresent) {
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    duration: Duration(milliseconds: 800),
+                    content: Text("Already present in Bookmarks"))
+                );
+              } else {
+                int i = await DatabaseClass.instance.create({
+                  ColumnFields.title: widget.jsonData["articles"][index]
+                      ["title"],
+                  ColumnFields.description:
+                      (widget.jsonData["articles"][index]["content"] != null)
+                          ? widget.jsonData["articles"][index]["content"]
+                          : "",
+                  ColumnFields.date:
+                      '${dateFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}  ${timeFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}',
+                  ColumnFields.url:
+                      (widget.jsonData["articles"][index]["url"] != null)
+                          ? widget.jsonData["articles"][index]["url"]
+                          : ""
+                });
+                addedToBookmarks();
+              }
             },
-            child: Text(widget.jsonData["articles"][index]["title"],
-                // style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                style: _textTheme.headline5,
-                ),
+            child: Text(
+              widget.jsonData["articles"][index]["title"],
+              // style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              style: _textTheme.headline5,
+            ),
           ),
           const SizedBox(height: 10),
-
-          GestureDetector(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  (widget.jsonData["articles"][index]["content"] != null)
-                      ? widget.jsonData["articles"][index]["content"]
-                      : "",
-                  // style: TextStyle(
-                  //   color: Colors.grey[700],
-                  //   fontSize: 17
-                  // ),
-                  style: _textTheme.subtitle1,
-                  textAlign: TextAlign.justify,
-                ),
-                const SizedBox(height: 30),
-                Text(
-                  'Published at: ${dateFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}  ${timeFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}',
-                  // style: const TextStyle(
-                  //   color: Colors.grey,
-                  //   fontSize: 14,
-                  //   fontStyle: FontStyle.italic
-                  // ),
-                  style: _textTheme.subtitle2,
-                  textAlign: TextAlign.justify,
-                ),
-              ],
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                (widget.jsonData["articles"][index]["content"] != null)
+                    ? widget.jsonData["articles"][index]["content"]
+                    : "",
+                // style: TextStyle(
+                //   color: Colors.grey[700],
+                //   fontSize: 17
+                // ),
+                style: _textTheme.subtitle1,
+                textAlign: TextAlign.justify,
+              ),
+              const SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Published at: ${dateFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}  ${timeFormatter.format(DateTime.parse(widget.jsonData["articles"][index]["publishedAt"]))}',
+                    // style: const TextStyle(
+                    //   color: Colors.grey,
+                    //   fontSize: 14,
+                    //   fontStyle: FontStyle.italic
+                    // ),
+                    style: _textTheme.subtitle2,
+                    textAlign: TextAlign.justify,
+                  ),
+                  IconButton(
+                  onPressed: ()async {
+                    // await Share.share('Hey! Check out this awesome article ${widget.jsonData["articles"][index]["url"]}',
+                    //           subject: 'Look what I made!');
+                    shareNews(index);
+                  },
+                  icon: Icon(Icons.share),)
+                ],
+              ),
+              // IconButton(
+              //     onPressed: ()async {
+              //       // await Share.share('Hey! Check out this awesome article ${widget.jsonData["articles"][index]["url"]}',
+              //       //           subject: 'Look what I made!');
+              //       shareNews(index);
+              //     },
+              //     icon: Icon(Icons.share),)
+            ],
           ),
         ],
       ),
     ));
+  }
+
+  shareNews(index) async{
+    await Share.share('Hey! Check out this awesome article ${widget.jsonData["articles"][index]["url"]}',
+                              subject: 'Look what I made!');
   }
 
   @override
@@ -151,8 +191,6 @@ class _NewsListState extends State<NewsList>
         addedToBookmarks();
       },
     );
-    print('hello');
-
   }
 
   @override
@@ -165,12 +203,10 @@ class _NewsListState extends State<NewsList>
         scrollDirection: Axis.vertical,
         itemCount: widget.jsonData["articles"].length,
         itemBuilder: (context, index) {
-
-
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              NewsImage(index),
+              NewsImageHolder(index),
               NewsDetails(index),
             ],
           );

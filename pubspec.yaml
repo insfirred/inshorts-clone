@@ -47,6 +47,11 @@ dependencies:
   url_launcher: ^6.1.5
   shared_preferences: ^2.0.15
   cached_network_image: ^3.2.1
+  awesome_loader: ^0.0.3
+  liquid_swipe: ^3.0.0
+  share_plus: ^4.4.0
+  internet_connection_checker: ^1.0.0+1
+  connectivity_plus: ^2.3.7
 
 dev_dependencies:
   flutter_test:
@@ -58,6 +63,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  
+  # internet_connection_checker: ^1.0.0+1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -74,10 +81,14 @@ flutter:
   assets:
     - assets/images/img.png
     - assets/images/unavailable-image.jpg
+    - assets/images/ronaldo.jpeg
+    - assets/images/doctor.jpeg
+    - assets/images/businessman.jpeg
     - assets/gifs/swipe_left.gif
     - assets/gifs/swipe_right.gif
     - assets/gifs/swipe_up.gif
     - assets/gifs/tap.gif
+    - assets/gifs/skeleton_image.gif
 
   #   - images/a_dot_ham.jpeg
 
@@ -92,10 +103,24 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: Oswald
+      fonts:
+        - asset: fonts/Oswald/Oswald-Bold.ttf
+        - asset: fonts/Oswald/Oswald-ExtraLight.ttf
+        - asset: fonts/Oswald/Oswald-Light.ttf
+        - asset: fonts/Oswald/Oswald-Medium.ttf
+        - asset: fonts/Oswald/Oswald-Regular.ttf
+        - asset: fonts/Oswald/Oswald-SemiBold.ttf
+
+    - family: Roboto
+      fonts:
+        - asset: fonts/Roboto/Roboto-Regular.ttf
+
+    - family: Abril_Fatface
+      fonts:
+        - asset: fonts/Abril_Fatface/AbrilFatface-Regular.ttf
+
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

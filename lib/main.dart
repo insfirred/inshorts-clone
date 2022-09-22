@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import './HomeScreen.dart';
 import './Screens/gettingStarted.dart';
 import './theme/theme.dart';
+import './HomeScreen.dart';
 
 Future main() async{
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
   final showHome = prefs.getBool('showHome')??false;
-  runApp(
-    MyApp(showHome: showHome)
-  );
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((value) => runApp(MyApp(showHome: showHome)),);
+  // runApp(
+  //   MyApp(showHome: showHome)
+  // );
 }
 
 class MyApp extends StatelessWidget {
@@ -31,6 +33,7 @@ class MyApp extends StatelessWidget {
       theme: lightTheme,
       darkTheme: darkTheme,
       home: showHome ?HomeScreen() :GettingStarted(),
+      // home: showHome ?GettingStarted() :GettingStarted(),
     );
   }
 }

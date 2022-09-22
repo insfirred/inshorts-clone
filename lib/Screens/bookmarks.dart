@@ -37,51 +37,58 @@ class _BookmarksState extends State<Bookmarks> {
     TextTheme _textTheme = Theme.of(context).textTheme;
     
     return Padding(
-      padding: EdgeInsets.fromLTRB(25, 30, 25, 0),
-      child: Container(
-        decoration: BoxDecoration(
-          // color:  Color.fromARGB(255, 70, 66, 66),
-          color: Theme.of(context).primaryColor,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        padding: EdgeInsets.fromLTRB(20,5,20,20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(
-                  onPressed: () async{
-                    int i = await DatabaseClass.instance.delete(list[newIndex]['url']);
-                    displayNews();
-                  },
-                  icon: const FaIcon(FontAwesomeIcons.trash,size: 20)
-                ),
-              ],
-            ),
-            Text( list[newIndex]['title']  ,style: _textTheme.headline6),
-            const SizedBox(height: 10,),
-
-            Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                list[newIndex]['date'],
-                  style: _textTheme.subtitle2,
-              ),
-            ),
-            const SizedBox(height: 10,),
-
-            GestureDetector(
-              onTap: () async{
+      padding: EdgeInsets.fromLTRB(25, 25, 25, 0),
+      child: GestureDetector(
+        onTap: () async{
                 String url = list[newIndex]['url'];
                 if(! await launchUrl(Uri.parse(url))){
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Couldn\'t launch $url')));
                 }
               },
-              child: Text( 'Click to Read Full Article Here'  ,style: TextStyle(fontSize: 17,fontStyle: FontStyle.italic,color: Colors.blue))
-            ),
-          ],
+        child: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          padding: EdgeInsets.fromLTRB(20,5,20,20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                    onPressed: () async{
+                      int i = await DatabaseClass.instance.delete(list[newIndex]['url']);
+                      displayNews();
+                    },
+                    icon: const FaIcon(FontAwesomeIcons.trash,size: 15)
+                  ),
+                ],
+              ),
+              Text( list[newIndex]['title']  ,style: _textTheme.headline6),
+              const SizedBox(height: 10,),
+            
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  list[newIndex]['date'],
+                    style: _textTheme.subtitle2,
+                ),
+              ),
+              const SizedBox(height: 10,),
+            
+              // GestureDetector(
+              //   onTap: () async{
+              //     String url = list[newIndex]['url'];
+              //     if(! await launchUrl(Uri.parse(url))){
+              //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Couldn\'t launch $url')));
+              //     }
+              //   },
+              //   child: const Text( 'Click to Read Full Article Here'  ,style: TextStyle(fontSize: 14,fontStyle: FontStyle.italic,color: Colors.blue))
+              // ),
+            ],
+          ),
         ),
       ),
     );
@@ -113,11 +120,23 @@ class _BookmarksState extends State<Bookmarks> {
         );
       }
       else{
-        return ListView.builder(
-          itemCount: list.length,
-          itemBuilder: (context,index){
-            return NewsTile(index);
-        },
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(25,10,25,25),
+              child: Text('My Bookmarks', style: _textTheme.headline4,),
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height - 105,
+              child: ListView.builder(
+                itemCount: list.length,
+                itemBuilder: (context,index){
+                  return NewsTile(index);
+                },
+              ),
+            ),
+          ],
         );
       }
 
