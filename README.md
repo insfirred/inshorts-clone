@@ -15,8 +15,10 @@ An Application that provides you news shorts coming from the API service (NewsAP
 ## Download 📥
 - Download latest APK from [here](https://github.com/insfirred/inshorts-clone/blob/features/apks/app-release.apk)
 
-## Screenshots 1 📷 
+## Onboarding Screens 
 ![screenshot1](assets/readMe/one.jpg)
+
+## HomeScreen, WebView, Bookmarks
 ![screenshot1](assets/readMe/two.jpg)
 
 ## Requirements 🎯 
@@ -28,5 +30,3 @@ An Application that provides you news shorts coming from the API service (NewsAP
 
 ### If you liked the project don't forget to star 🌟 and fork 🍽 the project.
 ![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)
-![ForTheBadge ANDROID](https://forthebadge.com/images/badges/built-for-android.svg)
-![ForTheBadge GIT](https://forthebadge.com/images/badges/uses-git.svg)
