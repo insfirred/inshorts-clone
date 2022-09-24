@@ -46,7 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       child: Scaffold(
         body: isNewsFetched
-        // ?WaitingScreen()
         ?PageView(
           controller: controller,
           children: [
@@ -54,36 +53,36 @@ class _HomeScreenState extends State<HomeScreen> {
             // Stack(
             //   children: [
                 NewsList(jsonData),
-                // Column(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     Container(),
-                //     Container(
-                //       decoration: const BoxDecoration(
-                //           gradient: LinearGradient(colors: [
-                //             Color.fromRGBO(242, 146, 237, 1),
-                //             Color.fromRGBO(243, 99, 100, 1)
-                //           ]),
-                //           ),
-                //       height: 80,
-                //       child: Row(
-                //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                //         children: [
-                //           // Icon(Icons.share_outlined,size: 30),
-                //           IconButton(onPressed: (){
-                //             NewsList.shareNews();
-                //           },
-                //           icon: Icon(Icons.share_outlined,size: 30,)
-                //         ),
-                //           IconButton(onPressed: (){},
-                //           icon: Icon(Icons.bookmark_outline,size: 30,)
-                //         ),
-                //         ],
-                //       ),
-                //     ),
-                //   ],
-                // )
-              // ],
+            //     Column(
+            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //       children: [
+            //         Container(),
+            //         Container(
+            //           decoration: const BoxDecoration(
+            //               gradient: LinearGradient(colors: [
+            //                 Color.fromRGBO(242, 146, 237, 1),
+            //                 Color.fromRGBO(243, 99, 100, 1)
+            //               ]),
+            //               ),
+            //           height: 80,
+            //           child: Row(
+            //             mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //             children: [
+            //               // Icon(Icons.share_outlined,size: 30),
+            //               IconButton(onPressed: (){
+            //                 // NewsList.shareNews();
+            //               },
+            //               icon: Icon(Icons.share_outlined,size: 30,)
+            //             ),
+            //               IconButton(onPressed: (){},
+            //               icon: Icon(Icons.bookmark_outline,size: 30,)
+            //             ),
+            //             ],
+            //           ),
+            //         ),
+            //       ],
+            //     )
+            //   ],
             // ),
             WebViewPage(jsonData)
           ],

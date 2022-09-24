@@ -83,7 +83,6 @@ class _WebViewPageState extends State<WebViewPage> {
       ),
     );
   }
-
 }
 
 // class PopUpMenuData {
