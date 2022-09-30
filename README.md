@@ -13,7 +13,7 @@ An Application that provides you news shorts coming from the API service (NewsAP
 
 
 ## Download 📥
-- Download latest APK from [here](https://github.com/insfirred/inshorts-clone/tree/features/apk)
+- Download latest APK from [here](https://drive.google.com/file/d/1-3usyE__CcjB2DNy-qYNfd5OqJIgYkNZ/view?usp=sharing)
 
 ## Onboarding Screens 
 ![screenshot1](assets/readMe/one.jpg)

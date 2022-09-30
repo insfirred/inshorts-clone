@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:shake/shake.dart';
+// import 'package:shake/shake.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -9,6 +9,7 @@ import '../HomeScreen.dart';
 import './showImage.dart';
 import '../animation/animation.dart';
 import '../database/database.dart';
+import '../animation/bouncing_button.dart';
 
 class NewsList extends StatefulWidget {
   var jsonData;
@@ -25,7 +26,7 @@ class NewsList extends StatefulWidget {
 }
 
 class _NewsListState extends State<NewsList>
-    with AutomaticKeepAliveClientMixin<NewsList> {
+    with AutomaticKeepAliveClientMixin<NewsList> ,TickerProviderStateMixin {
   final DateTime now = DateTime.now();
 
   final timeFormatter = DateFormat('jm');
@@ -151,14 +152,13 @@ class _NewsListState extends State<NewsList>
     ));
   }
 
+  late AnimationController controller;
+  late Animation colorAnimation;
+  late Animation sizeAnimation;
+
   @override
   void initState() {
     super.initState();
-    ShakeDetector detector = ShakeDetector.autoStart(
-      onPhoneShake: () {
-        addedToBookmarks();
-      },
-    );
   }
 
   @override
@@ -167,33 +167,38 @@ class _NewsListState extends State<NewsList>
     super.build(context);
     return Column(
       children: [
-        Container(
-          height: MediaQuery.of(context).size.height - 117,
-          child: PageView.builder(
-              onPageChanged: (page) {
-                HomeScreen.newsIndex = page;
-                setState(() {});
-              },
-              scrollDirection: Axis.vertical,
-              itemCount: widget.jsonData["articles"].length,
-              itemBuilder: (context, index) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    NewsImageHolder(index),
-                    NewsDetails(index),
-                  ],
-                );
-              }),
+        Expanded(
+          child: Container(
+            // height: MediaQuery.of(context).size.height - 200,
+            child: PageView.builder(
+                onPageChanged: (page) {
+                  HomeScreen.newsIndex = page;
+                  setState(() {});
+                },
+                scrollDirection: Axis.vertical,
+                itemCount: widget.jsonData["articles"].length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      NewsImageHolder(index),
+                      NewsDetails(index),
+                    ],
+                  );
+                }),
+          ),
         ),
+
+
         Container(
           decoration: const BoxDecoration(
+            // color: Colors.pink
             gradient: LinearGradient(colors: [
               Color.fromRGBO(242, 146, 237, 1),
               Color.fromRGBO(243, 99, 100, 1)
             ]),
           ),
-          height: 80,
+          height: MediaQuery.of(context).size.height/12,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -201,7 +206,7 @@ class _NewsListState extends State<NewsList>
                   onPressed: () {
                     widget.shareNews(HomeScreen.newsIndex);
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.share_outlined,
                     size: 30,
                   )),
@@ -251,10 +256,10 @@ class _NewsListState extends State<NewsList>
                   },
                   icon: FaIcon(FontAwesomeIcons.bookmark),
               ),
-
             ],
           ),
         ),
+
       ],
     );
   }

@@ -15,7 +15,7 @@ ThemeData lightTheme = ThemeData(
   iconTheme: const IconThemeData(color: Colors.black87),
 
   // primaryColor: Color.fromARGB(0, 202, 134, 134)
-  primaryColor: Color.fromARGB(189, 230, 183, 183)
+  primaryColor: Color.fromARGB(255, 230, 183, 183)
 );
 
 
@@ -34,5 +34,5 @@ ThemeData darkTheme = ThemeData(
   iconTheme: const IconThemeData(color: Colors.white70),
 
   // primaryColor: Colors.grey[800]
-  primaryColor: Color.fromRGBO(0, 0, 0, 0.3)
+  primaryColor: Color.fromARGB(255, 4, 0, 13)
 );
