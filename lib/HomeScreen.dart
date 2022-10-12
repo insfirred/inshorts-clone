@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import './Screens/waitingScreen.dart';
 import './Screens/bookmarks.dart';
 import './Screens/newsList.dart';
-import './Screens/webView.dart';
+import 'Screens/bgWebView.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -51,7 +51,8 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Bookmarks(),
             NewsList(jsonData),
-            WebViewPage(jsonData)
+            TestWebView(jsonData)
+
           ],
         )
         :const WaitingScreen()

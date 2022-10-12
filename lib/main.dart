@@ -10,10 +10,7 @@ Future main() async{
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
   final showHome = prefs.getBool('showHome')??false;
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((value) => runApp(MyApp(showHome: showHome)),);
-  // runApp(
-  //   MyApp(showHome: showHome)
-  // );
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((value) => runApp(MyApp(showHome: showHome)));
 }
 
 class MyApp extends StatelessWidget {
@@ -29,11 +26,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'News Shorts',
       themeMode: ThemeMode.system,
-      // theme: ThemeData.light(),
       theme: lightTheme,
       darkTheme: darkTheme,
       home: showHome ?HomeScreen() :GettingStarted(),
-      // home: showHome ?GettingStarted() :GettingStarted(),
     );
   }
 }

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:inshorts_clone/database/database.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 import '../theme/theme.dart';
 
@@ -23,6 +20,10 @@ class _BookmarksState extends State<Bookmarks> {
     });
 
     list = await DatabaseClass.instance.read();
+    // print(list.length);
+
+    expandedStatus = List.filled(list.length,false, growable: true);
+    print(list);
 
     setState(() {
       isLoading = false;
@@ -31,6 +32,8 @@ class _BookmarksState extends State<Bookmarks> {
 
   int a = 10;
 
+  late List<bool> expandedStatus;
+
   Widget NewsTile(int index) {
     int len = list.length;
     int newIndex = len - index - 1;
@@ -38,23 +41,23 @@ class _BookmarksState extends State<Bookmarks> {
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
-      child: GestureDetector(
-        onTap: () async {
-          String url = list[newIndex]['url'];
-          if (!await launchUrl(Uri.parse(url))) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text('Couldn\'t launch $url')));
-          }
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            expandedStatus[index] = !expandedStatus[index];
+          });
         },
-        child: Container(
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          curve: Curves.easeIn,
+          height: expandedStatus[index] ?300 : 160,
           decoration: BoxDecoration(
             boxShadow: const [
               BoxShadow(
-                color: Colors.grey,
-                offset: Offset(3,3),
-                blurRadius: 7,
-                spreadRadius: 2,
-                // blurStyle: BlurStyle.outer
+                color: Color.fromARGB(168, 97, 97, 97),
+                offset: Offset(2,2),
+                blurRadius: 3,
+                spreadRadius: 1,
               )
             ],
             color: Theme.of(context).primaryColor,
@@ -69,19 +72,19 @@ class _BookmarksState extends State<Bookmarks> {
                 children: [
                   IconButton(
                       onPressed: () async {
+                        expandedStatus.removeAt(newIndex);
+                        print(expandedStatus);
                         int i = await DatabaseClass.instance
                             .delete(list[newIndex]['url']);
                         displayNews();
                       },
-                      // icon: const FaIcon(FontAwesomeIcons.dungeon, size: 15)),
-                      icon: Icon(Icons.delete_outline_outlined)
+                      icon: const Icon(Icons.delete_outline_outlined)
                   ),
                 ],
               ),
-              Text(list[newIndex]['title'], style: _textTheme.headline6),
-              const SizedBox(
-                height: 10,
-              ),
+              Text(
+                list[newIndex]['title'], style: _textTheme.headline6),
+                const SizedBox(height: 10),
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
@@ -92,6 +95,14 @@ class _BookmarksState extends State<Bookmarks> {
               const SizedBox(
                 height: 10,
               ),
+              AnimatedCrossFade(
+                firstChild: Text("", style: TextStyle(fontSize: 0)),
+                secondChild: (list[newIndex]['_description'] != "")  ?Flexible(child: Text(list[newIndex]['_description'].substring(0,list[newIndex]['_description'].length - 14), overflow: TextOverflow.ellipsis,maxLines: 5,style: _textTheme.subtitle1,)) :Text("Content Unavailable", style: _textTheme.subtitle1),
+                crossFadeState: !expandedStatus[index] ?CrossFadeState.showFirst :CrossFadeState.showSecond,
+                reverseDuration: Duration.zero,
+                sizeCurve: Curves.fastLinearToSlowEaseIn,
+                duration: Duration(milliseconds: 150)
+              )
             ],
           ),
         ),
@@ -124,17 +135,14 @@ class _BookmarksState extends State<Bookmarks> {
       } else {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             BookmarkAppBar(textTheme: _textTheme),
             Expanded(
-              child: Container(
-                child: ListView.builder(
-                  itemCount: list.length,
-                  itemBuilder: (context, index) {
-                    return NewsTile(index);
-                  },
-                ),
+              child: ListView.builder(
+                itemCount: list.length,
+                itemBuilder: (context, index) {
+                  return NewsTile(index);
+                },
               ),
             ),
           ],
@@ -157,19 +165,20 @@ class BookmarkAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         decoration: BoxDecoration(
-            // color: Colors.amber,
             color: Theme.of(context).primaryColor,
             borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20)),
             boxShadow: [
               BoxShadow(
-                  color: Theme.of(context).primaryColor,
-                  offset: const Offset(2, 2),
+                  // color: Theme.of(context).primaryColor,
+                  color: Color.fromARGB(204, 158, 158, 158),
+                  offset: const Offset(0, 2),
                   blurRadius: 2,
-                  spreadRadius: 3
+                  spreadRadius: 2
                 )
-            ]),
+            ]
+          ),
         width: MediaQuery.of(context).size.height,
         padding: const EdgeInsets.all(25),
         child: Text('My Bookmarks', style: _textTheme.headline4));

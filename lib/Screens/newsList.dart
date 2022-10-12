@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-// import 'package:shake/shake.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -9,7 +8,6 @@ import '../HomeScreen.dart';
 import './showImage.dart';
 import '../animation/animation.dart';
 import '../database/database.dart';
-import '../animation/bouncing_button.dart';
 
 class NewsList extends StatefulWidget {
   var jsonData;
