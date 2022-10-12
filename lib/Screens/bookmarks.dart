@@ -48,7 +48,7 @@ class _BookmarksState extends State<Bookmarks> {
           });
         },
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 150),
+          duration: const Duration(milliseconds: 200),
           curve: Curves.easeIn,
           height: expandedStatus[index] ?300 : 160,
           decoration: BoxDecoration(
@@ -63,27 +63,52 @@ class _BookmarksState extends State<Bookmarks> {
             color: Theme.of(context).primaryColor,
             borderRadius: BorderRadius.circular(20),
           ),
-          padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
+          // padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+          padding: EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.end,
+              //   children: [
+              //     IconButton(
+              //         onPressed: () async {
+              //           expandedStatus.removeAt(newIndex);
+              //           int i = await DatabaseClass.instance
+              //               .delete(list[newIndex]['url']);
+              //           displayNews();
+              //         },
+              //         icon: const Icon(Icons.delete_outline_outlined)
+              //     ),
+              //   ],
+              // ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
-                      onPressed: () async {
+                  Container(
+                    width: MediaQuery.of(context).size.width-130,
+                    child: Text(list[newIndex]['title'], style: _textTheme.headline6)
+                  ),
+                  InkWell(
+                    onTap: () async {
                         expandedStatus.removeAt(newIndex);
-                        print(expandedStatus);
                         int i = await DatabaseClass.instance
                             .delete(list[newIndex]['url']);
                         displayNews();
                       },
-                      icon: const Icon(Icons.delete_outline_outlined)
-                  ),
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: Colors.pink,
+                        borderRadius: BorderRadius.circular(50)
+                      ),
+                      child: Icon(Icons.delete_outline_outlined)
+                    )
+                  )
                 ],
               ),
-              Text(
-                list[newIndex]['title'], style: _textTheme.headline6),
                 const SizedBox(height: 10),
               Align(
                 alignment: Alignment.centerRight,
@@ -97,11 +122,11 @@ class _BookmarksState extends State<Bookmarks> {
               ),
               AnimatedCrossFade(
                 firstChild: Text("", style: TextStyle(fontSize: 0)),
-                secondChild: (list[newIndex]['_description'] != "")  ?Flexible(child: Text(list[newIndex]['_description'].substring(0,list[newIndex]['_description'].length - 14), overflow: TextOverflow.ellipsis,maxLines: 5,style: _textTheme.subtitle1,)) :Text("Content Unavailable", style: _textTheme.subtitle1),
+                secondChild: (list[newIndex]['_description'] != "")  ?Text(list[newIndex]['_description'].substring(0,list[newIndex]['_description'].length - 14), overflow: TextOverflow.ellipsis,maxLines: 5,style: _textTheme.subtitle1,) :Text("Content Unavailable", style: _textTheme.subtitle1),
                 crossFadeState: !expandedStatus[index] ?CrossFadeState.showFirst :CrossFadeState.showSecond,
                 reverseDuration: Duration.zero,
                 sizeCurve: Curves.fastLinearToSlowEaseIn,
-                duration: Duration(milliseconds: 150)
+                duration: Duration(milliseconds: 800)
               )
             ],
           ),
