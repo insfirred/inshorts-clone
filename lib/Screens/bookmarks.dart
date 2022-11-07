@@ -22,7 +22,7 @@ class _BookmarksState extends State<Bookmarks> {
     list = await DatabaseClass.instance.read();
     // print(list.length);
 
-    expandedStatus = List.filled(list.length,false, growable: true);
+    expandedStatus = List.filled(list.length, false, growable: true);
     print(list);
 
     setState(() {
@@ -50,12 +50,12 @@ class _BookmarksState extends State<Bookmarks> {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
           curve: Curves.easeIn,
-          height: expandedStatus[index] ?300 : 160,
+          height: expandedStatus[index] ? 300 : 160,
           decoration: BoxDecoration(
             boxShadow: const [
               BoxShadow(
                 color: Color.fromARGB(168, 97, 97, 97),
-                offset: Offset(2,2),
+                offset: Offset(2, 2),
                 blurRadius: 3,
                 spreadRadius: 1,
               )
@@ -87,29 +87,29 @@ class _BookmarksState extends State<Bookmarks> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width-130,
-                    child: Text(list[newIndex]['title'], style: _textTheme.headline6)
-                  ),
+                      width: MediaQuery.of(context).size.width - 130,
+                      child: Text(list[newIndex]['title'],
+                          style: _textTheme.headline6)),
                   InkWell(
                     onTap: () async {
-                        expandedStatus.removeAt(newIndex);
-                        int i = await DatabaseClass.instance
-                            .delete(list[newIndex]['url']);
-                        displayNews();
-                      },
+                      expandedStatus.removeAt(newIndex);
+                      int i = await DatabaseClass.instance
+                          .delete(list[newIndex]['url']);
+                      displayNews();
+                    },
                     child: Container(
                       width: 40,
                       height: 40,
                       decoration: BoxDecoration(
-                        color: Colors.pink,
-                        borderRadius: BorderRadius.circular(50)
+                        // color: Colors.pink,
+                        borderRadius: BorderRadius.circular(50),
                       ),
-                      child: Icon(Icons.delete_outline_outlined)
-                    )
+                      child: Icon(Icons.delete_outline_outlined),
+                    ),
                   )
                 ],
               ),
-                const SizedBox(height: 10),
+              const SizedBox(height: 10),
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
@@ -121,12 +121,25 @@ class _BookmarksState extends State<Bookmarks> {
                 height: 10,
               ),
               AnimatedCrossFade(
-                firstChild: Text("", style: TextStyle(fontSize: 0)),
-                secondChild: (list[newIndex]['_description'] != "")  ?Text(list[newIndex]['_description'].substring(0,list[newIndex]['_description'].length - 14), overflow: TextOverflow.ellipsis,maxLines: 5,style: _textTheme.subtitle1,) :Text("Content Unavailable", style: _textTheme.subtitle1),
-                crossFadeState: !expandedStatus[index] ?CrossFadeState.showFirst :CrossFadeState.showSecond,
+                firstChild: const Text(
+                  "",
+                  style: TextStyle(fontSize: 0),
+                ),
+                secondChild: (list[newIndex]['_description'] != "")
+                    ? Text(
+                        list[newIndex]['_description'].substring(
+                            0, list[newIndex]['_description'].length - 14),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 5,
+                        style: _textTheme.subtitle1,
+                      )
+                    : Text("Content Unavailable", style: _textTheme.subtitle1),
+                crossFadeState: !expandedStatus[index]
+                    ? CrossFadeState.showFirst
+                    : CrossFadeState.showSecond,
                 reverseDuration: Duration.zero,
                 sizeCurve: Curves.fastLinearToSlowEaseIn,
-                duration: Duration(milliseconds: 800)
+                duration: const Duration(milliseconds: 800),
               )
             ],
           ),
@@ -200,10 +213,8 @@ class BookmarkAppBar extends StatelessWidget {
                   color: Color.fromARGB(204, 158, 158, 158),
                   offset: const Offset(0, 2),
                   blurRadius: 2,
-                  spreadRadius: 2
-                )
-            ]
-          ),
+                  spreadRadius: 2)
+            ]),
         width: MediaQuery.of(context).size.height,
         padding: const EdgeInsets.all(25),
         child: Text('My Bookmarks', style: _textTheme.headline4));
